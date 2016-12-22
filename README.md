@@ -6,9 +6,13 @@ This project proposes new maps for background navigation in SeisComP3 applicatio
 * possibility to change a lot of mapping parameters (land/sea colormap, lighting, constrast, etc...)
 
 ![zoom level 0](mksc3maps_screenshot_level0.png)
+Example of level 0 zoom (ETOPO1 data).
 ![zoom level 3](mksc3maps_screenshot_level3.png)
+Example of level 3 zoom (ETOPO1 data, 1.8km resolution).
 ![zoom level 5](mksc3maps_screenshot_level5.png)
+Example of level 5 zoom (SRTM3 data, 90m resolution).
 ![zoom level 8](mksc3maps_screenshot_level8.png)
+Example of level 8 zoom (SRTM1 data, 30m resolution).
 
 ## seiscomp3-ipgp-maps.tgz
 
@@ -64,7 +68,16 @@ Those two variables are Mx3 matrix of RGB values to define submarine and land co
 ```matlab
 X.optdem = {'noplot','latlon','zlim',[-1e4,1e4],'landcolor',landcolor,'seacolor',seacolor,'lake','interp'};
 ```
-This cell vector contain options for the main dem.m function that produces the lighting relief. See [dem.m](https://github.com/IPGP/mapping-matlab/blob/master/dem/dem.m) documentation for possible arguments.
+This cell vector contain options for the main dem.m function that produces the lighting relief.
+* 'noplot' is to avoid plot of each maps on the screen
+* 'latlon' is mandatory to adjust z-ratio lighting
+* 'zlim' fixes the limits (min and max in meter) of colormap. Must be set to avoid color discrepencies between tiles
+* 'landcolor' tells the colormap to use for land (z > 0)
+* 'seacolor' tells the colormap to use for sea (z <= 0)
+* 'lake' produces sea-color for flat areas, despite the elevation value (see level 8 zoom screeshot for example)
+* 'interp' interpolates gaps (no values) in the data (useful for SRTM in high relief areas)
+
+Lighting options are default. See [dem.m](https://github.com/IPGP/mapping-matlab/blob/master/dem/dem.m) documentation to change them and for possible other arguments.
 
 
 ### Usage
@@ -73,10 +86,10 @@ From Matlab command window, run:
 ```matlab
 mksc3maps
 ```
-
+will produce all world**.png images in the current directory. Those files have to be copied to $SEISCOMP__ROOT/share/maps to take effect in SeisComP3.
 
 ## Author
 **François Beauducel**, IPGP, [beaudu](https://github.com/beaudu), beauducel@ipgp.fr 
 
 ## Documentation
-Type "doc mksc3maps" for detailed usage.
+Type "doc mksc3maps" or see the code mksc3maps.m for details.
