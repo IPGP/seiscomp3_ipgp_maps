@@ -1,14 +1,14 @@
-# seiscomp3 background maps from IPGP
+# seiscomp3 background maps
 
 This project proposes new maps for background navigation in SeisComP3 applications like scolv. Improvements are:
-* better global resolution using ETOPO1 data
+* better global resolution using full scale ETOPO1 data
 * possibility to zoom on specific targets at higher resolution, using SRTM data
 * possibility to change a lot of mapping parameters (land/sea colormap, lighting, constrast, etc...)
 
-![](mksc3maps_screenshot_level0.png)
-![](mksc3maps_screenshot_level3.png)
-![](mksc3maps_screenshot_level5.png)
-![](mksc3maps_screenshot_level8.png)
+![zoom level 0](mksc3maps_screenshot_level0.png)
+![zoom level 3](mksc3maps_screenshot_level3.png)
+![zoom level 5](mksc3maps_screenshot_level5.png)
+![zoom level 8](mksc3maps_screenshot_level8.png)
 
 ## seiscomp3-ipgp-maps.tgz
 
@@ -28,7 +28,7 @@ Matlab code to produce the maps.
 
 ### Dependencies
 
-* use some functions from [mapping-matlab](../mapping-matlab) toolbox, in particular readhgt.m, ibil.m and dem.m
+* use some functions from [mapping-matlab](https://github.com/IPGP/mapping-matlab) toolbox, in particular readhgt.m, ibil.m and dem.m
 * ETOPO1 data, available at NGDC/NOAA: download the file [etopo1.zip](https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/grid_registered/binary/etopo1_bed_g_i2.zip)
 * SRTM3 and SRTM1 data will be automatically downloaded by the code (needs internet connection)
 
@@ -59,12 +59,12 @@ Graphic options are also in the code script and can be changed:
 seacolor = [linspace(51,144)',linspace(79,161)',linspace(122,178)']/255;
 landcolor = [linspace(193,230)',linspace(194,230)',linspace(159,230)']/255;
 ```
-Those two variables are Mx3 matrix of RGB values to define submarine and land colormaps, respectively. Proposed values attempt to reproduce the original SeisComP3 colormaps. Comment these lines and use seacolor.m and landcolor.m from [mapping-matlab](mapping-matlab) toolbox to try colorful maps.
+Those two variables are Mx3 matrix of RGB values to define submarine and land colormaps, respectively. Proposed values attempt to reproduce the original SeisComP3 colormaps. Comment these lines and use seacolor.m and landcolor.m from [mapping-matlab](https://github.com/IPGP/mapping-matlab) toolbox to try colorful maps.
 
 ```matlab
 X.optdem = {'noplot','latlon','zlim',[-1e4,1e4],'landcolor',landcolor,'seacolor',seacolor,'lake','interp'};
 ```
-This cell vector contain options for the main dem.m function that produces the lighting relief. See dem.m documentation for possible arguments.
+This cell vector contain options for the main dem.m function that produces the lighting relief. See [dem.m](https://github.com/IPGP/mapping-matlab/blob/master/dem/dem.m) documentation for possible arguments.
 
 
 ### Usage
