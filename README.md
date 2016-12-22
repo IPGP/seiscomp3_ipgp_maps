@@ -17,11 +17,11 @@ Example of level 5 zoom (SRTM3 data, 90m resolution).
 ![zoom level 8](mksc3maps_screenshot_level8.png)
 Example of level 8 zoom (SRTM1 data, 30m resolution).
 
-## seiscomp3-ipgp-maps.tgz
+## seiscomp3-ipgp-maps.tgz: ready-to-use images
 
 Download the file at [seiscomp3-ipgp-maps.tgz](http://www.ipgp.fr/~beaudu/download/seiscomp3-ipgp-maps.tgz)  (452 Mb).
 
-This tar archive contains 355 tiles named to be used as background maps in SeisComP3 applications like scolv.
+This tar archive contains 355 tiles named to be used as background maps in SeisComP3.
 
 To install it, seiscomp must be installed and configured, then just do:
 ```sh
@@ -31,7 +31,7 @@ tar zxf seiscomp3-ipgp-maps.tgz
 
 ## mksc3maps.m: make new background maps
 
-Matlab code to produce the maps.
+Matlab source code to produce the maps.
 
 ### Dependencies
 
@@ -39,7 +39,7 @@ Matlab code to produce the maps.
 * ETOPO1 data, available at NGDC/NOAA: download the file [etopo1.zip](https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/grid_registered/binary/etopo1_bed_g_i2.zip)
 * SRTM3 and SRTM1 data will be automatically downloaded by the code (needs internet connection)
 
-### Instllation and configuration
+### Installation and configuration
 
 The code is a single function without argument. Some variable must be ajusted to proper local values:
 ```matlab
@@ -66,7 +66,7 @@ Graphic options are also in the code script and can be changed:
 seacolor = [linspace(51,144)',linspace(79,161)',linspace(122,178)']/255;
 landcolor = [linspace(193,230)',linspace(194,230)',linspace(159,230)']/255;
 ```
-Those two variables are Mx3 matrix of RGB values to define submarine and land colormaps, respectively. Proposed values attempt to reproduce the original SeisComP3 colormaps. Comment these lines and use seacolor.m and landcolor.m from [mapping-matlab](https://github.com/IPGP/mapping-matlab) toolbox to try colorful maps.
+Those two variables are 100x3 matrix of RGB values to define submarine and land colormaps, respectively. Proposed values attempt to reproduce the original SeisComP3 colormaps. Comment these lines and use seacolor.m and landcolor.m from [mapping-matlab](https://github.com/IPGP/mapping-matlab) toolbox to try colorful maps.
 
 ```matlab
 X.optdem = {'noplot','latlon','zlim',[-1e4,1e4],'landcolor',landcolor,'seacolor',seacolor,'lake','interp'};
