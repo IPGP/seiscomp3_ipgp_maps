@@ -12,7 +12,7 @@ This project proposes new maps for background navigation in SeisComP3 applicatio
 
 ## seiscomp3-ipgp-maps.tgz
 
-Download the file at [seiscomp3-ipgp-maps.tgz](www.ipgp.fr/~beaudu/download/seiscomp3-ipgp-maps.tgz)  (452 Mb).
+Download the file at [seiscomp3-ipgp-maps.tgz](http://www.ipgp.fr/~beaudu/download/seiscomp3-ipgp-maps.tgz)  (452 Mb).
 
 This tar archive contains 355 tiles named to be used as background maps in SeisComP3 applications like scolv.
 
@@ -28,11 +28,11 @@ Matlab code to produce the maps.
 
 ### Dependencies
 
-* use some functions from [mapping-matlab](mapping-matlab) toolbox, in particular readhgt.m, ibil.m and dem.m
+* use some functions from [mapping-matlab](../mapping-matlab) toolbox, in particular readhgt.m, ibil.m and dem.m
 * ETOPO1 data, available at NGDC/NOAA: download the file [etopo1.zip](https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/grid_registered/binary/etopo1_bed_g_i2.zip)
 * SRTM3 and SRTM1 data will be automatically downloaded by the code (needs internet connection)
 
-### Usage
+### Instllation and configuration
 
 The code is a single function without argument. Some variable must be ajusted to proper local values:
 ```matlab
@@ -40,7 +40,7 @@ X.etopo = '/home/joe/grids/ETOPO/etopo1_bed_g_i2'; % ETOPO1 base filename (.bin 
 X.psrtm3 = '/home/joe/grids/SRTM3'; % directory to write SRTM3 downloaded files
 X.psrtm1 = '/home/joe/grids/SRTM1'; % directory to write SRTM1 downloaded files
 ```
-It is mandatory to have two separated directoties for SRTM1 and SRTM3 since they use the same filename.
+It is mandatory to have two separated directories for SRTM1 and SRTM3 since they use the same filename. Once .hgt files are written, they won't be downloaded again from internet if the code is run again.
 
 Default behavior of the code will make only level 4 zoom tiles using ETOPO1.
 
@@ -53,6 +53,27 @@ targets = [110.448654,-7.536658;   % Merapi volcano, Indonesia
 ];
 ```
 Note that targets cannot be outside latitude 60S-60N (no SRTM data).
+
+Graphic options are also in the code script and can be changed:
+```matlab
+seacolor = [linspace(51,144)',linspace(79,161)',linspace(122,178)']/255;
+landcolor = [linspace(193,230)',linspace(194,230)',linspace(159,230)']/255;
+```
+Those two variables are Mx3 matrix of RGB values to define submarine and land colormaps, respectively. Proposed values attempt to reproduce the original SeisComP3 colormaps. Comment these lines and use seacolor.m and landcolor.m from [mapping-matlab](mapping-matlab) toolbox to try colorful maps.
+
+```matlab
+X.optdem = {'noplot','latlon','zlim',[-1e4,1e4],'landcolor',landcolor,'seacolor',seacolor,'lake','interp'};
+```
+This cell vector contain options for the main dem.m function that produces the lighting relief. See dem.m documentation for possible arguments.
+
+
+### Usage
+
+From Matlab command window, run:
+```matlab
+mksc3maps
+```
+
 
 ## Author
 **François Beauducel**, IPGP, [beaudu](https://github.com/beaudu), beauducel@ipgp.fr 
