@@ -72,12 +72,12 @@ Those two variables are 100x3 matrix of RGB values to define submarine and land 
 X.optdem = {'noplot','latlon','zlim',[-1e4,1e4],'landcolor',landcolor,'seacolor',seacolor,'lake','interp'};
 ```
 This cell vector contain options for the main dem.m function that produces the lighting relief.
-* 'noplot' is to avoid plot of each maps on the screen
-* 'latlon' is mandatory to adjust z-ratio lighting
-* 'zlim' fixes the limits (min and max in meter) of colormap. Must be set to avoid color discrepencies between tiles
-* 'landcolor' tells the colormap to use for land (z > 0)
-* 'seacolor' tells the colormap to use for sea (z <= 0)
-* 'lake' produces sea-color for flat areas, despite the elevation value (see level 8 zoom screeshot for example)
+* 'noplot' is to avoid figure plot of each maps on the screen during the process;
+* 'latlon' is mandatory to get correct z-ratio lighting;
+* 'zlim' fixes the limits (min and max in meter) of colormap, must be set to avoid color discrepencies between tiles;
+* 'landcolor' sets the colormap to use for land (z > 0);
+* 'seacolor' sets the colormap to use for sea (z <= 0);
+* 'lake' produces sea-color for any flat areas, despite the elevation value (see level 8 zoom screenshot for example);
 * 'interp' interpolates gaps (no values) in the data (useful for SRTM in high relief areas)
 
 Lighting options are default. See [dem.m](https://github.com/IPGP/mapping-matlab/blob/master/dem/dem.m) documentation to change them and for possible other arguments.
