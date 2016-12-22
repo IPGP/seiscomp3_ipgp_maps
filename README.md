@@ -1,16 +1,19 @@
 # seiscomp3 background maps
 
-This project proposes new maps for background navigation in SeisComP3 applications like scolv. Improvements are:
+This project proposes new maps for background navigation in [SeisComP](https://www.seiscomp3.org/) applications like scolv. Improvements from basic SeisComP3 map package are:
 * better global resolution using full scale ETOPO1 data
 * possibility to zoom on specific targets at higher resolution, using SRTM data
-* possibility to change a lot of mapping parameters (land/sea colormap, lighting, constrast, etc...)
+* possibility to change a lot of mapping parameters (land/sea colormap, lighting, contrast, etc...)
 
 ![zoom level 0](mksc3maps_screenshot_level0.png)
 Example of level 0 zoom (ETOPO1 data).
+
 ![zoom level 3](mksc3maps_screenshot_level3.png)
 Example of level 3 zoom (ETOPO1 data, 1.8km resolution).
+
 ![zoom level 5](mksc3maps_screenshot_level5.png)
 Example of level 5 zoom (SRTM3 data, 90m resolution).
+
 ![zoom level 8](mksc3maps_screenshot_level8.png)
 Example of level 8 zoom (SRTM1 data, 30m resolution).
 
@@ -86,10 +89,12 @@ From Matlab command window, run:
 ```matlab
 mksc3maps
 ```
-will produce all world**.png images in the current directory. Those files have to be copied to $SEISCOMP__ROOT/share/maps to take effect in SeisComP3.
+will produce all world*.png images in the current directory. Those files have to be copied to $SEISCOMP_ROOT/share/maps to take effect in SeisComP3.
 
 ## Author
 **François Beauducel**, IPGP, [beaudu](https://github.com/beaudu), beauducel@ipgp.fr 
 
 ## Documentation
 Type "doc mksc3maps" or see the code mksc3maps.m for details.
+
+[SeisComP3 background maps](https://www.seiscomp3.org/wiki/recipes/backgroundmaps), _SeisComP3 documentation_
