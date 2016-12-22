@@ -17,7 +17,7 @@ Download the file at [seiscomp3-ipgp-maps.tgz](www.ipgp.fr/~beaudu/download/seis
 This tar archive contains 355 tiles named to be used as background maps in SeisComP3 applications like scolv.
 
 To install it, seiscomp must be installed and configured, then just do:
-``sh
+```sh
 cd $SEISCOMP_ROOT/share/maps
 tar zxf seiscomp3-ipgp-maps.tgz
 ```
@@ -48,8 +48,8 @@ To make level 5 to 8 zoom tiles, define targets with coordinates longitude,latit
 ```matlab
 targets = [110.448654,-7.536658;   % Merapi volcano, Indonesia
            -61.663560, 16.04443;   % Soufrière volcano, Guadeloupe
-	   -61.168500, 14.811330;  % Pelée volcano, Martinique
-	    55.714050,-21.24861;   % Piton de la Fournaise, Réunion
+           -61.168500, 14.811330;  % Pelée volcano, Martinique
+            55.714050,-21.24861;   % Piton de la Fournaise, Réunion
 ];
 ```
 Note that targets cannot be outside latitude 60S-60N (no SRTM data).
