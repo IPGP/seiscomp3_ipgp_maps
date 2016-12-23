@@ -46,7 +46,7 @@ Downloads codes and data and place it in a directory.
 The code is a single function without argument. Some variable must be ajusted to proper local values, editing the source mksc3maps.m:
 ```matlab
 X.etopo = 'data/etopo1_bed_g_i2'; % ETOPO1 base filename (.bin and .hdr) 
-X.psrtm3 = data/SRTM3'; % directory to write SRTM3 downloaded files
+X.psrtm3 = 'data/SRTM3'; % directory to write SRTM3 downloaded files
 X.psrtm1 = 'data/SRTM1'; % directory to write SRTM1 downloaded files
 ```
 It is mandatory to have two separated directories for SRTM1 and SRTM3 since they use the same filename. Once .hgt files are written, they won't be downloaded again from internet if the code is run again.
@@ -91,10 +91,13 @@ From Matlab command window, run:
 ```matlab
 mksc3maps
 ```
-will produce all world*.png images in the current directory maps/. Those files have to be copied to $SEISCOMP_ROOT/share/maps/ to take effect in SeisComP3.
+will produce all world*.png images in the current directory maps/. Images are created only if not already exist. To rebuild any image, just delete it before running the script.
+
+Image files have to be copied to $SEISCOMP_ROOT/share/maps/ to take effect in SeisComP3.
 
 ## Authors
 **François Beauducel**, IRD/IPGP, [beaudu](https://github.com/beaudu), beauducel@ipgp.fr 
+
 **Ali A. Fahmi**, IRD
 
 ## Documentation
