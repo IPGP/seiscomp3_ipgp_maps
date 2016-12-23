@@ -20,9 +20,14 @@ seacolor = [linspace(51,144)',linspace(79,161)',linspace(122,178)']/255;
 landcolor = [linspace(193,230)',linspace(194,230)',linspace(159,230)']/255;
 
 X.optdem = {'noplot','latlon','zlim',[-1e4,1e4],'landcolor',landcolor,'seacolor',seacolor,'lake','interp'};
-X.etopo = '/home/joe/grids/ETOPO/etopo1_bed_g_i2'; % ETOPO1 base filename (.bin and .hdr) 
-X.psrtm3 = '/home/joe/grids/SRTM3'; % directory to write SRTM3 downloaded files
-X.psrtm1 = '/home/joe/grids/SRTM1'; % directory to write SRTM1 downloaded files
+X.etopo = 'data/etopo1_bed_g_i2'; % ETOPO1 base filename (.bin and .hdr) 
+X.psrtm3 = 'data/SRTM3'; % directory to write SRTM3 downloaded files
+X.psrtm1 = 'data/SRTM1'; % directory to write SRTM1 downloaded files
+
+% makes needed sub-directories
+mkdir(X.psrtm3)
+mkdir(X.psrtm1)
+mkdir('maps')
 
 % defines a list of targets ([longitude,latitude] pairs in a 2-column matrix)
 % for which tiles will be made until level 8 zoom (SRTM1 30m resolution)
@@ -77,7 +82,7 @@ function xylim = mkmap(xylim,n,source,opt)
 % builds tile n(end)
 % length(n) is zoom level
 
-f = sprintf(['world',repmat('%d',1,length(n)),'.png'],n);
+f = sprintf(['maps/world',repmat('%d',1,length(n)),'.png'],n);
 
 if ~isempty(n)
 	xylim = xytile(xylim,n(end));
