@@ -51,9 +51,15 @@ X.psrtm1 = 'data/SRTM1'; % directory to write SRTM1 downloaded files
 ```
 It is mandatory to have two separated directories for SRTM1 and SRTM3 since they use the same filename. Once .hgt files are written, they won't be downloaded again from internet if the code is run again.
 
-Default behavior of the code will make only level 4 zoom tiles using ETOPO1.
+Default behavior of the code will make only level 4 zoom tiles using ETOPO1. You can change this
+```matlab
+maxlevel = 4;
+```
+* 4 is default with tiles of $22.5 \times 11.25$° using ETOPO1 with bathymetry
+* 6 means tiles of about $6 \times 3$° using SRTM3 (land only)
+* 8 means tiles of about $1.4 \times 0.7$° using SRTM1 (land only)
 
-To make level 5 to 8 zoom tiles, define targets with coordinates longitude,latitude, e.g.:
+Note that if maxlevel 4 is makes 341 total tiles, level 6 is 5461 tiles, and level 8 will do $\sum_{i=0}^{8}{4^i}}$ which is 87381 tiles (not recommanded). Since SeisComP3 allows multiscale tiling, it is much preferred to define specific targets where you want high-resolution maps. The code will make evel 5 to 8 zoom on focused tiles defined by targets with coordinates longitude,latitude, e.g.:
 ```matlab
 targets = [110.4486, -7.5367;  % Merapi, Indonesia
            -61.6636, 16.0444;  % Soufrière, Guadeloupe

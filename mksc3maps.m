@@ -13,7 +13,7 @@ function mksc3maps
 %	Authors: François Beauducel, IRD/IPGP <beauducel@ipgp.fr>
 %	         Ali A. Fahmi, IRD
 %	Created: 2016-12-20, Yogyakarta, Indonesia
-%	Updated: 2016-12-22
+%	Updated: 2016-12-27
 
 % try to reproduce original colors from seiscomp3 maps
 seacolor = [linspace(51,144)',linspace(79,161)',linspace(122,178)']/255;
@@ -28,6 +28,12 @@ X.psrtm1 = 'data/SRTM1'; % directory to write SRTM1 downloaded files
 mkdir(X.psrtm3)
 mkdir(X.psrtm1)
 mkdir('maps')
+
+% defines the maximum zoom level for all maps
+%   4 is default with tiles of 22.5 x 11.25° using ETOPO1
+%   6 means tiles of about 6 x 3° using SRTM3
+%	8 means tiles of about 1.4 x 0.7° using SRTM1
+maxlevel = 4;
 
 % defines a list of targets ([longitude,latitude] pairs in a 2-column matrix)
 % for which tiles will be made until level 8 zoom (SRTM1 30m resolution)
@@ -52,16 +58,16 @@ for n1 = 0:3
 				xylim4 = mkmap(xylim3,[n1,n2,n3,n4],'etopo',X);
 				% starting level 5 zoom, makes tile only if a target is inside
 				for n5 = 0:3
-					if ~isempty(targets) && any(isintoxy(targets,xytile(xylim4,n5)))
+					if maxlevel >= 5 || any(isintoxy(targets,xytile(xylim4,n5)))
 						xylim5 = mkmap(xylim4,[n1,n2,n3,n4,n5],'etopo',X);
 						for n6 = 0:3
-							if any(isintoxy(targets,xytile(xylim5,n6)))
+							if maxlevel >= 6 || any(isintoxy(targets,xytile(xylim5,n6)))
 								xylim6 = mkmap(xylim5,[n1,n2,n3,n4,n5,n6],'srtm3',X);
 								for n7 = 0:3
-									if any(isintoxy(targets,xytile(xylim6,n7)))
+									if maxlevel >= 7 || any(isintoxy(targets,xytile(xylim6,n7)))
 										xylim7 = mkmap(xylim6,[n1,n2,n3,n4,n5,n6,n7],'srtm3',X);
 										for n8 = 0:3
-											if any(isintoxy(targets,xytile(xylim7,n8)))
+											if maxlevel >=8 || any(isintoxy(targets,xytile(xylim7,n8)))
 												mkmap(xylim7,[n1,n2,n3,n4,n5,n6,n7,n8],'srtm1',X);
 											end
 										end
@@ -101,9 +107,13 @@ if ~exist(f,'file')
 			DEM = readhgt(xylim([3:4,1:2]),'srtm3','outdir',opt.psrtm3);
 			r = ceil(128/2^length(n));
 	end
-	I = dem(DEM.lon,DEM.lat,DEM.z,'decim',r,opt{:});
-	imwrite(flipud(I.rgb),f)
-	fprintf('done.\n');
+	if all(DEM.z(:)==0)
+		fprintf('full offshore tile. Not written.\n')
+	else
+		I = dem(DEM.lon,DEM.lat,DEM.z,'decim',r,opt{:});
+		imwrite(flipud(I.rgb),f)
+		fprintf('done.\n');
+	end
 end
 
 
@@ -128,5 +138,9 @@ xylim2 = xylim([1,1,3,3]) + [0,xy2(1),0,xy2(2)] + reshape(repmat(c.*xy2,2,1),1,4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function k=isintoxy(xy,xylim)
 % tests if a coordinate (x,y) is into (x1,x2,y1,y2) limits
-k = xy(:,1)>=min(xylim(1:2)) & xy(:,1)<=max(xylim(1:2)) ...
-	& xy(:,2)>=min(xylim(3:4)) & xy(:,2)<=max(xylim(3:4));
+if ~isempty(xy)
+	k = xy(:,1)>=min(xylim(1:2)) & xy(:,1)<=max(xylim(1:2)) ...
+		& xy(:,2)>=min(xylim(3:4)) & xy(:,2)<=max(xylim(3:4));
+else
+	k = false;
+end
