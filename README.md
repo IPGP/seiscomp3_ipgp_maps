@@ -55,11 +55,11 @@ Default behavior of the code will make only level 4 zoom tiles using ETOPO1. You
 ```matlab
 maxlevel = 4;
 ```
-* 4 is default with tiles of $ 22.5 \times 11.25 $° using ETOPO1 with bathymetry
-* 6 means tiles of about $ 6 \times 3 $° using SRTM3 (land only)
-* 8 means tiles of about $ 1.4 \times 0.7 $° using SRTM1 (land only)
+* 4 is default with tiles of 22.5 x 11.25 ° using ETOPO1 with bathymetry
+* 6 means tiles of about 6 x 3 ° using SRTM3 (land only)
+* 8 means tiles of about 1.4 x 0.7 ° using SRTM1 (land only)
 
-Note that if maxlevel 4 is makes 341 total tiles, level 6 is 5461 tiles, and level 8 will do $ \sum_{i=0}^{8}{4^i}} $ which is 87381 tiles (not recommanded). Since SeisComP3 allows multiscale tiling, it is much preferred to define specific targets where you want high-resolution maps. The code will make evel 5 to 8 zoom on focused tiles defined by targets with coordinates longitude,latitude, e.g.:
+Note that if maxlevel 4 is makes 341 total tiles, level 6 is already 5461 tiles (actually less because full offshore tiles from SRTM will not be written), and level 8 will do $ \sum_{i=0}^{8}{4^i}} $ which is 87381 tiles (not recommanded). Since SeisComP3 allows multiscale tiling, it is much preferred to define specific targets where you want high-resolution maps. The code will make evel 5 to 8 zoom on focused tiles defined by targets with coordinates longitude,latitude, e.g.:
 ```matlab
 targets = [110.4486, -7.5367;  % Merapi, Indonesia
            -61.6636, 16.0444;  % Soufrière, Guadeloupe
