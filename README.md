@@ -95,11 +95,7 @@ Lighting options are default (45°W direction, linear contrast). See [dem.m](htt
 
 ### Usage
 
-From Octave or Matlab command window, run:
-```matlab
-mksc3maps
-```
-or from a linux terminal:
+From a terminal, run:
 ```sh
 octave --eval 'mksc3maps'
 ```
