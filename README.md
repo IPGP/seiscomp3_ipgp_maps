@@ -31,10 +31,11 @@ tar zxf seiscomp3-ipgp-maps.tgz
 
 ## mksc3maps.m: make new background maps
 
-Matlab source code to produce the maps.
+Matlab/Octave source code to produce the maps.
 
 ### Dependencies
 
+* Octave 4.2.0 or newer
 * some functions from [mapping-matlab](https://github.com/IPGP/mapping-matlab) toolbox are necessary, in particular [readhgt](https://github.com/IPGP/mapping-matlab/tree/master/readhgt), [dem](https://github.com/IPGP/mapping-matlab/tree/master/dem) and [ibil](https://github.com/IPGP/mapping-matlab/tree/master/ibil)
 * ETOPO1 data, available at NGDC/NOAA: download the file [etopo1_bed_g_i2.zip](https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/grid_registered/binary/etopo1_bed_g_i2.zip)
 * SRTM3 and SRTM1 data will be automatically downloaded by the code (needs internet connection)
@@ -61,10 +62,11 @@ maxlevel = 4;
 
 Note that if maxlevel 4 is 341 total tiles, level 6 corresponds to about 1800 tiles and level 8 will make near 29000 tiles (not recommanded). Since SeisComP3 allows multiscale tiling, it is much preferred to define specific targets where you want high-resolution maps. The code will produce level 5 to 8 zoom on focused tiles defined by targets with coordinates longitude,latitude, e.g.:
 ```matlab
-targets = [110.4486, -7.5367;  % Merapi, Indonesia
-           -61.6636, 16.0444;  % Soufrière, Guadeloupe
-           -61.1685, 14.8113;  % Mt. Pelée, Martinique
-            55.7141,-21.2486;  % Piton de la Fournaise, Réunion
+targets = [ ...
+   110.4486, -7.5367;  % Merapi, Indonesia
+   -61.6636, 16.0444;  % Soufrière, Guadeloupe
+   -61.1685, 14.8113;  % Mt. Pelée, Martinique
+    55.7141,-21.2486;  % Piton de la Fournaise, Réunion
 ];
 ```
 Note that targets cannot be outside latitude 60S-60N (no SRTM data).
@@ -93,9 +95,13 @@ Lighting options are default (45°W direction, linear contrast). See [dem.m](htt
 
 ### Usage
 
-From Matlab command window, run:
+From Octave or Matlab command window, run:
 ```matlab
 mksc3maps
+```
+or from a linux terminal:
+```sh
+octave --eval 'mksc3maps'
 ```
 will produce all world*.png images in the current directory maps/. Images are created only if not already exist. To rebuild any image, just delete it before running the script.
 
