@@ -13,7 +13,7 @@ function mksc3maps
 %	Authors: François Beauducel, IRD/IPGP <beauducel@ipgp.fr>
 %	         Ali A. Fahmi, IRD
 %	Created: 2016-12-20, Yogyakarta, Indonesia
-%	Updated: 2016-12-27
+%	Updated: 2017-01-06
 
 % try to reproduce original colors from seiscomp3 maps
 seacolor = [linspace(51,144)',linspace(79,161)',linspace(122,178)']/255;
@@ -95,9 +95,9 @@ if ~isempty(n)
    xylim = xytile(xylim,n(end));
 end
 if ~exist(f,'file')
-fprintf('** makes tile "%s": xylim = [%g %g %g %g]... ',f,xylim);
+   fprintf('** makes tile "%s": xylim = [%g %g %g %g]... ',f,xylim);
 
-switch lower(source)
+   switch lower(source)
 	 	case 'etopo'
 		    DEM = ibil(opt.etopo,xylim);
 			   r = ceil(10/2^length(n));
@@ -107,14 +107,14 @@ switch lower(source)
 		 case 'srtm3'
 			   DEM = readhgt(xylim([3:4,1:2]),'srtm3','outdir',opt.psrtm3);
 			   r = ceil(128/2^length(n));
-end
-if all(DEM.z(:)==0)
- 		fprintf('full offshore tile. Not written.\n')
-	  else
-		    I = dem(DEM.lon,DEM.lat,DEM.z,'decim',r,opt.optdem{:});
-		    imwrite(flipud(I.rgb),f)
-		    fprintf('done.\n');
-	  end
+   end
+   if all(DEM.z(:)==0)
+      fprintf('full offshore tile. Not written.\n')
+   else
+      I = dem(DEM.lon,DEM.lat,DEM.z,'decim',r,opt.optdem{:});
+      imwrite(cat(3,flipud(I.rgb(:,:,1)),flipud(I.rgb(:,:,2)),flipud(I.rgb(:,:,3))),f)
+      fprintf('done.\n');
+   end
 end
 
 
@@ -141,7 +141,7 @@ function k=isintoxy(xy,xylim)
 % tests if a coordinate (x,y) is into (x1,x2,y1,y2) limits
 if ~isempty(xy)
    k = xy(:,1)>=min(xylim(1:2)) & xy(:,1)<=max(xylim(1:2)) ...
-		   & xy(:,2)>=min(xylim(3:4)) & xy(:,2)<=max(xylim(3:4));
+       & xy(:,2)>=min(xylim(3:4)) & xy(:,2)<=max(xylim(3:4));
 else
    k = false;
 end
