@@ -13,13 +13,13 @@ function mksc3maps
 %	Authors: François Beauducel, IRD/IPGP <beauducel@ipgp.fr>
 %	         Ali A. Fahmi, IRD
 %	Created: 2016-12-20, Yogyakarta, Indonesia
-%	Updated: 2017-01-06
+%	Updated: 2017-01-08
 
 % try to reproduce original colors from seiscomp3 maps
 seacolor = [linspace(51,144)',linspace(79,161)',linspace(122,178)']/255;
 landcolor = [linspace(193,230)',linspace(194,230)',linspace(159,230)']/255;
 
-X.optdem = {'noplot','latlon','zlim',[-1e4,1e4],'landcolor',landcolor,'seacolor',seacolor,'lake','interp'};
+X.optdem = {'noplot','latlon','zlim',[-1e4,1e4],'interp','lakezmin',0,'landcolor',landcolor,'seacolor',seacolor};
 X.etopo = 'data/etopo1_bed_g_i2'; % ETOPO1 base filename (.bin and .hdr) 
 X.psrtm3 = 'data/SRTM3'; % directory to write SRTM3 downloaded files
 X.psrtm1 = 'data/SRTM1'; % directory to write SRTM1 downloaded files
@@ -38,10 +38,14 @@ maxlevel = 4;
 % defines a list of targets ([longitude,latitude] pairs in a 2-column matrix)
 % for which tiles will be made until level 8 zoom (SRTM1 30m resolution)
 targets = [ ...
-   110.448654,-7.536658; % Merapi volcano, Indonesia
-   -61.663560, 16.04443; % Soufrière volcano, Guadeloupe
-   -61.168500, 14.811330; % Pelée volcano, Martinique
-    55.714050,-21.24861; % Piton de la Fournaise, Réunion
+   110.4486, -7.5367; % Merapi volcano, Indonesia
+   127.3322,  0.8100; % Gamalama volcano, Indonesia
+   -61.6636, 16.0444; % Soufrière volcano, Guadeloupe
+   -61.1685, 14.8113; % Pelée volcano, Martinique
+   -62.1758, 16.7121; % Soufriere Hilss volcano, Montserrat 
+   -72.3334, 18.5334; % Port-au-Prince, Haiti
+    55.7140,-21.2486; % Piton de la Fournaise, Réunion
+    43.3588,-11.7514; % Khartala volcano, Comores
 ];
 
 % low resolution maps using ETOPO1
@@ -98,23 +102,31 @@ if ~exist(f,'file')
    fprintf('** makes tile "%s": xylim = [%g %g %g %g]... ',f,xylim);
 
    switch lower(source)
-	 	case 'etopo'
-		    DEM = ibil(opt.etopo,xylim);
-			   r = ceil(10/2^length(n));
- 		case 'srtm1'
-			   DEM = readhgt(xylim([3:4,1:2]),'srtm1','outdir',opt.psrtm1);
-			   r = ceil(128/2^length(n));
-		 case 'srtm3'
-			   DEM = readhgt(xylim([3:4,1:2]),'srtm3','outdir',opt.psrtm3);
-			   r = ceil(128/2^length(n));
+      case 'etopo'
+         r = ceil(10/2^length(n));
+         DEM = ibil(opt.etopo,xylim);
+      case 'srtm3'
+         DEM = readhgt(xylim([3:4,1:2]),'srtm3','outdir',opt.psrtm3,'wget');
+         r = ceil(128/2^length(n));
+      case 'srtm1'
+         DEM = readhgt(xylim([3:4,1:2]),'srtm1','outdir',opt.psrtm1);
+         r = ceil(128/2^length(n));
    end
-   if all(DEM.z(:)==0)
-      fprintf('full offshore tile. Not written.\n')
-   else
-      I = dem(DEM.lon,DEM.lat,DEM.z,'decim',r,opt.optdem{:});
-      imwrite(cat(3,flipud(I.rgb(:,:,1)),flipud(I.rgb(:,:,2)),flipud(I.rgb(:,:,3))),f)
-      fprintf('done.\n');
+
+   if ~isempty(strfind(lower(source),'srtm'))
+     % interpolates ETOPO for SRTM offshore areas
+     k = find(DEM.z==0);
+     if ~isempty(k)
+         % loads ETOPO1 with +/- 2 minutes of extra borders
+         E = ibil(opt.etopo,xylim + 2/60*[-1,1,-1,1]);
+         [xx,yy] = meshgrid(DEM.lon,DEM.lat);
+         DEM.z(k) = min(floor(interp2(E.lon,E.lat,E.z,xx(k),yy(k),'*linear')),0);
+      end
    end
+
+   I = dem(DEM.lon,DEM.lat,DEM.z,'decim',r,opt.optdem{:});
+   imwrite(cat(3,flipud(I.rgb(:,:,1)),flipud(I.rgb(:,:,2)),flipud(I.rgb(:,:,3))),f)
+   fprintf('done.\n');
 end
 
 

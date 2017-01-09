@@ -63,10 +63,10 @@ maxlevel = 4;
 Note that if maxlevel 4 is 341 total tiles, level 6 corresponds to about 1800 tiles and level 8 will make near 29000 tiles (not recommanded). Since SeisComP3 allows multiscale tiling, it is much preferred to define specific targets where you want high-resolution maps. The code will produce level 5 to 8 zoom on focused tiles defined by targets with coordinates longitude,latitude, e.g.:
 ```matlab
 targets = [ ...
-   110.4486, -7.5367;  % Merapi, Indonesia
    -61.6636, 16.0444;  % Soufrière, Guadeloupe
    -61.1685, 14.8113;  % Mt. Pelée, Martinique
     55.7141,-21.2486;  % Piton de la Fournaise, Réunion
+    43.3588,-11.7514;  % Khartala volcano, Comores    
 ];
 ```
 Note that targets cannot be outside latitude 60S-60N (no SRTM data).
@@ -79,7 +79,7 @@ landcolor = [linspace(193,230)',linspace(194,230)',linspace(159,230)']/255;
 Those two variables are 100x3 matrix of RGB values to define submarine and land colormaps, respectively. These colormaps attempt to reproduce the original SeisComP3 colors. Comment these lines and use seacolor.m and landcolor.m from [mapping-matlab](https://github.com/IPGP/mapping-matlab) toolbox to try colorful maps, or use any other colormap your want.
 
 ```matlab
-X.optdem = {'noplot','latlon','zlim',[-1e4,1e4],'landcolor',landcolor,'seacolor',seacolor,'lake','interp'};
+X.optdem = {'noplot','latlon','zlim',[-1e4,1e4],'landcolor',landcolor,'seacolor',seacolor,'lakezmin',0,'interp'};
 ```
 This cell vector contain options for the main dem.m function that produces the lighting relief.
 * 'noplot' is to avoid figure plot of each maps on the screen during the process;
@@ -87,7 +87,7 @@ This cell vector contain options for the main dem.m function that produces the l
 * 'zlim' fixes the limits (min and max in meter) of colormap, must be set to avoid color discrepencies between tiles;
 * 'landcolor' sets the colormap to use for land (z > 0);
 * 'seacolor' sets the colormap to use for sea (z <= 0);
-* 'lake' fills any flat areas with sea color, despite the elevation value (see level 8 zoom screenshot for example);
+* 'lakezmin' fills any flat areas with sea color, for elevations > 0 (see level 8 zoom screenshot for example);
 * 'interp' interpolates gaps (no values) in the data (useful for SRTM in some high relief areas)
 
 Lighting options are default (45°W direction, linear contrast). See [dem.m](https://github.com/IPGP/mapping-matlab/blob/master/dem/dem.m) documentation to change them and for possible additional arguments.
