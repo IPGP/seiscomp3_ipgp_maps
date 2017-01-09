@@ -6,22 +6,26 @@ This project proposes new maps for background navigation in [SeisComP](https://w
 * possibility to change a lot of mapping parameters (land/sea colormap, lighting, contrast, etc...)
 
 ![zoom level 0](mksc3maps_screenshot_level0.png)
+
 Example of level 0 zoom (ETOPO1 data).
 
 ![zoom level 3](mksc3maps_screenshot_level3.png)
+
 Example of level 3 zoom (ETOPO1 data, 1.8km resolution).
 
 ![zoom level 5](mksc3maps_screenshot_level5.png)
+
 Example of level 5 zoom (SRTM3 data, 90m resolution).
 
 ![zoom level 8](mksc3maps_screenshot_level8.png)
+
 Example of level 8 zoom (SRTM1 data, 30m resolution).
 
 ## seiscomp3-ipgp-maps.tgz: ready-to-use images
 
-Download the file at [seiscomp3-ipgp-maps.tgz](http://www.ipgp.fr/~beaudu/download/seiscomp3-ipgp-maps.tgz)  (452 Mb).
+Download the file at [seiscomp3-ipgp-maps.tgz](http://www.ipgp.fr/~beaudu/download/seiscomp3-ipgp-maps.tgz)  (566 Mb).
 
-This tar archive contains 355 tiles named to be used as background maps in SeisComP3.
+This tar archive contains 370 tiles named to be used as background maps in SeisComP3. Includes zoom level 8 for few selected areas (Antilles, Indonesia, Réunion, ...). 
 
 To install it, just do (seiscomp must be installed and configured):
 ```sh
@@ -35,7 +39,7 @@ Matlab/Octave source code to produce the maps.
 
 ### Dependencies
 
-* Octave 4.2.0 or newer
+* Octave 3.8.0 (or newer) or Matlab 2011b (or newer)
 * some functions from [mapping-matlab](https://github.com/IPGP/mapping-matlab) toolbox are necessary, in particular [readhgt](https://github.com/IPGP/mapping-matlab/tree/master/readhgt), [dem](https://github.com/IPGP/mapping-matlab/tree/master/dem) and [ibil](https://github.com/IPGP/mapping-matlab/tree/master/ibil)
 * ETOPO1 data, available at NGDC/NOAA: download the file [etopo1_bed_g_i2.zip](https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/bedrock/grid_registered/binary/etopo1_bed_g_i2.zip)
 * SRTM3 and SRTM1 data will be automatically downloaded by the code (needs internet connection)
