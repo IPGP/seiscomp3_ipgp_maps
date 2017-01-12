@@ -110,7 +110,9 @@ Image files have to be copied to $SEISCOMP_ROOT/share/maps/ to take effect in Se
 ## Authors
 **François Beauducel**, IRD/IPGP, [beaudu](https://github.com/beaudu), beauducel@ipgp.fr 
 
+### Acknowledgments
 **Ali A. Fahmi**, IRD
+**Jean-Marie Saurel**, IPGP
 
 ## Documentation
 Type "doc mksc3maps" or see the code mksc3maps.m for details.
